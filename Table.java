@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Table {
 
-    public class Entry {
+    public static class Entry {
         public Integer iface;
         public IPAddress destinationIP;
         public IPAddress nextHop;
