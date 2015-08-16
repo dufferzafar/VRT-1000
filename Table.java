@@ -40,5 +40,11 @@ public class Table {
 
         System.out.println("-------------------------------------------------\n");
     }
+
+    public Entry findDestinationIP(IPAddress ip) {
+        if (table.containsKey(ip)) {
+            return table.get(ip);
+        }
+    }
 }
 
