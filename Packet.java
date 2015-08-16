@@ -70,5 +70,6 @@ public class Packet {
         System.out.println("Packet source      : " + sourceIP);
         System.out.println("Packet destination : " + destinationIP);
         System.out.println("Binary Contents    : " + byteString);
+        System.out.println("");
     }
 }
