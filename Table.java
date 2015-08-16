@@ -16,6 +16,10 @@ public class Table {
         }
     }
 
+    public boolean isEmpty() {
+        return table.size() == 0;
+    }
+
     public void print() {
         System.out.println("-------------------------------------------------");
         System.out.println("|   Destination   |     Next Hop    | Interface |");
@@ -31,7 +35,7 @@ public class Table {
             );
         }
 
-        System.out.println("-------------------------------------------------");
+        System.out.println("-------------------------------------------------\n");
     }
 }
 
