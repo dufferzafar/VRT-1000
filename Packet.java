@@ -1,13 +1,10 @@
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class Packet {
     private int version, headerLength, differentiatedServices, totalLength;
     private int identification, fragmentation; // offset;
     private int ttl, protocol, checksum;
 
-    private InetAddress sourceIP;
-    private InetAddress destinationIP;
+    private IPAddress sourceIP;
+    private IPAddress destinationIP;
 
     public Packet(String src, String dest) {
         version = 4;
@@ -20,20 +17,20 @@ public class Packet {
         protocol = 6;
         checksum = 0;
 
-        try {
-            sourceIP = InetAddress.getByName(src);
-            destinationIP = InetAddress.getByName(dest);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        sourceIP = new IPAddress(src);
+        destinationIP = new IPAddress(dest);
     }
 
-    public String getSourceIP() {
-        return sourceIP.getHostAddress();
+    public IPAddress getSourceIP() {
+        return sourceIP;
     }
 
-    public String getDestinationIP() {
-        return destinationIP.getHostAddress();
+    public IPAddress getDestinationIP() {
+        return destinationIP;
+    }
+
+    public IPAddress.Class getIPClass() {
+        return destinationIP.getIPClass();
     }
 
     private String padInt(int property, int size) {
@@ -44,16 +41,8 @@ public class Packet {
         return str;
     }
 
-    private String toBinaryString(InetAddress ip) {
-        String rv = "";
-        for(String block: ip.getHostAddress().split("\\.")) {
-            rv += Integer.toBinaryString(Integer.parseInt(block));
-        }
-        return rv;
-    }
-
-    private String padIP(InetAddress ip) {
-        String temp = toBinaryString(ip);
+    private String padIP(IPAddress ip) {
+        String temp = ip.toBinaryString();
         if(temp.length() < 32) {
             while(temp.length() < 32) {
                 temp = "0" + temp;
@@ -78,8 +67,8 @@ public class Packet {
 
         System.out.println("Packet: ");
         System.out.println("-------\n");
-        System.out.println("Packet source      : " + sourceIP.getHostAddress());
-        System.out.println("Packet destination : " + destinationIP.getHostAddress());
+        System.out.println("Packet source      : " + sourceIP);
+        System.out.println("Packet destination : " + destinationIP);
         System.out.println("Binary Contents    : " + byteString);
     }
 }
