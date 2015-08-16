@@ -14,14 +14,14 @@ public class Table {
         }
     }
 
-    HashMap<IPAddress, Entry> table;
+    HashMap<String, Entry> table;
 
     public Table() {
-        table = new HashMap<IPAddress, Entry>();
+        table = new HashMap<String, Entry>();
     }
 
     public void add(String destinationIP, String nextHop, Integer iface) {
-        table.put(new IPAddress(destinationIP), new Entry(destinationIP, nextHop, iface));
+        table.put(destinationIP, new Entry(destinationIP, nextHop, iface));
     }
 
     public boolean isEmpty() {
@@ -33,7 +33,7 @@ public class Table {
         System.out.println("|   Destination   |     Next Hop    | Interface |");
         System.out.println("-------------------------------------------------");
 
-        for (Map.Entry<IPAddress, Entry> item : table.entrySet()) {
+        for (Map.Entry<String, Entry> item : table.entrySet()) {
             Entry e = item.getValue();
             System.out.printf("| %15s | %15s | %5d     |\n", e.destinationIP, e.nextHop, e.iface);
         }
@@ -42,8 +42,10 @@ public class Table {
     }
 
     public Entry findDestinationIP(IPAddress ip) {
-        if (table.containsKey(ip)) {
-            return table.get(ip);
+        if (table.containsKey(ip.toString())) {
+            return table.get(ip.toString());
+        } else  {
+            return new Entry("0.0.0.0", "0.0.0.0", 0);
         }
     }
 }
