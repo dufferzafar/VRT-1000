@@ -10,7 +10,7 @@ public class Table {
 
     public void add(String destinationIP, String nextHop, Integer iface) {
         try {
-            table.put(iface, Arrays.asList(InetAddress.getByName(destinationIP), InetAddress.getByName(nextHop)));
+            table.put(iface, Arrays.asList(IPAddress(destinationIP), IPAddress(nextHop)));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -26,11 +26,11 @@ public class Table {
         System.out.println("-------------------------------------------------");
 
         for (Map.Entry<Integer, List> item : table.entrySet()) {
-            List<InetAddress> values = item.getValue();
+            List<IPAddress> values = item.getValue();
             System.out.printf(
                 "| %15s | %15s | %5d     |\n",
-                values.get(0).getHostAddress(),
-                values.get(1).getHostAddress(),
+                values.get(0),
+                values.get(1),
                 item.getKey()
             );
         }
