@@ -1,19 +1,27 @@
-import java.net.*;
 import java.util.*;
 
 public class Table {
-    Map<Integer, List> table;
+
+    public class Entry {
+        public Integer iface;
+        public IPAddress destinationIP;
+        public IPAddress nextHop;
+
+        public Entry(String d, String n, Integer i) {
+            iface = i;
+            destinationIP = new IPAddress(d);
+            nextHop = new IPAddress(n);
+        }
+    }
+
+    HashMap<IPAddress, Entry> table;
 
     public Table() {
-        table = new HashMap();
+        table = new HashMap<IPAddress, Entry>();
     }
 
     public void add(String destinationIP, String nextHop, Integer iface) {
-        try {
-            table.put(iface, Arrays.asList(IPAddress(destinationIP), IPAddress(nextHop)));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        table.put(new IPAddress(destinationIP), new Entry(destinationIP, nextHop, iface));
     }
 
     public boolean isEmpty() {
@@ -25,14 +33,9 @@ public class Table {
         System.out.println("|   Destination   |     Next Hop    | Interface |");
         System.out.println("-------------------------------------------------");
 
-        for (Map.Entry<Integer, List> item : table.entrySet()) {
-            List<IPAddress> values = item.getValue();
-            System.out.printf(
-                "| %15s | %15s | %5d     |\n",
-                values.get(0),
-                values.get(1),
-                item.getKey()
-            );
+        for (Map.Entry<IPAddress, Entry> item : table.entrySet()) {
+            Entry e = item.getValue();
+            System.out.printf("| %15s | %15s | %5d     |\n", e.destinationIP, e.nextHop, e.iface);
         }
 
         System.out.println("-------------------------------------------------\n");
