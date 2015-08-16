@@ -32,4 +32,17 @@ public class IPAddress {
             return Class.Invalid;
         }
     }
+
+    // Note: I am not sure if this is technically called a net address
+    // but for IP Address   : 112.245.182.222
+    // return value will be : 112.0.0.0
+    // since it is a class A address
+    public IPAddress getNetAddress() {
+        switch (getIPClass()) {
+            case A: return new IPAddress(String.format("%s.0.0.0", address.substring(0,3)));
+            case B: return new IPAddress(String.format("%s.0.0"  , address.substring(0,7)));
+            case C: return new IPAddress(String.format("%s.0"    , address.substring(0,15)));
+        }
+        return new IPAddress("0.0.0.0");
+    }
 }
