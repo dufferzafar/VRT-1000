@@ -11,10 +11,19 @@ public class IPAddress {
         return address;
     }
 
+    // Todo: Merge into toBinaryString?
+    private String padStr(String property, int size) {
+        String str = property;
+        while(str.length() < size) {
+            str = "0" + str;
+        }
+        return str;
+    }
+
     public String toBinaryString() {
         String rv = "";
         for(String block: address.split("\\.")) {
-            rv += Integer.toBinaryString(Integer.parseInt(block));
+            rv += padStr(Integer.toBinaryString(Integer.parseInt(block)), 8);
         }
         return rv;
     }
